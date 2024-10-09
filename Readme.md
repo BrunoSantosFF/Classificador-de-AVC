@@ -4,7 +4,8 @@ A intenção desse mini projeto é fazer um classificador de AVC
  * Vocês vão receber como entrada dados de vários pacientes
  * E o modelo deve retornar se ele teve AVC ou não
 
-Os dados estão disponíveis no Kaggle
+## Os dados estão disponíveis no Kaggle
+
 https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset
 
 Texto fornecido pelo autor do dataset citado acima em português : 
@@ -27,3 +28,9 @@ Este conjunto de dados é usado para prever se um paciente tem probabilidade de 
 
 *Observação: "Desconhecido" em smoking_status significa que a informação não está disponível para este paciente
 
+## O que é interessante fazer:
+- Separar os dados
+- Normalizar
+- Utilizar um classificador 
+- Criar um pipeline
+- Utilizar validação cruzada
