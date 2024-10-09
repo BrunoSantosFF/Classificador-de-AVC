@@ -15,6 +15,12 @@ from mpl_toolkits.mplot3d import Axes3D
 #importando para treino e teste
 from sklearn.model_selection import train_test_split
 
+#importando SMOTE 
+from imblearn.over_sampling import SMOTE
+
+#importando arquivo de funções auxiliares 
+from functions import checkingSmote
+
 # Configurando a opção do pandas para evitar avisos de downcasting
 pd.set_option('future.no_silent_downcasting', True)
 
@@ -84,6 +90,12 @@ y = df['stroke']
 
 #Dividindo os dados em treino e test (30% test e 70% train)
 X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.3, random_state=42)
+
 #Modelando 
 #SMOTE = balancear os dados do database
 #Já que existe poucos casos com AVC, usamos o smote para equilibrar os dados
+oversample = SMOTE()
+X_train_resh, y_train_resh = oversample.fit_resample(X_train, y_train.ravel())
+
+#função para imprimir dados originais e balanceados
+checkingSmote(y_train, y_train_resh)
