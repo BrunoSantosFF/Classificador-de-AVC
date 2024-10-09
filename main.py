@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
 #importando arquivo de funções auxiliares 
-from functions import checkingSmote
+from functions import checkingSmote,printCroosValidation
 
 #importando modelos
 from sklearn.preprocessing import StandardScaler
@@ -120,3 +120,7 @@ logreg_pipeline = Pipeline(steps = [('scale',StandardScaler()),('LR',LogisticReg
 rf_cv = cross_val_score(rf_pipeline,X_train_resh,y_train_resh,cv=10,scoring='f1')
 svm_cv = cross_val_score(svm_pipeline,X_train_resh,y_train_resh,cv=10,scoring='f1')
 logreg_cv = cross_val_score(logreg_pipeline,X_train_resh,y_train_resh,cv=10,scoring='f1')
+
+#imprimindo sainda da validação cruzada
+#printCroosValidation(rf_cv,svm_cv,logreg_cv)
+
