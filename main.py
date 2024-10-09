@@ -8,7 +8,11 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeRegressor
 
 #importando o arquivo de graficos
-from plot_graphics import plot_numeric_distribution
+from plot_graphics import create_plots
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 
 # Configurando a opção do pandas para evitar avisos de downcasting
 pd.set_option('future.no_silent_downcasting', True)
@@ -57,13 +61,9 @@ df.loc[Missing.index, 'bmi'] = predicted_bmi
 #Confirmando se o processo deu certo ou se ainda há algum valor nulo
 #print('Missing values: ',sum(df.isnull().sum()))
 
-#Verificando o por que das variaveis ('age', 'gender', 'bmi') tem a ver com AVC 
-variables = []
-for variable in df.columns:
-    if variable not in ['id', 'stroke']:
-        variables.append(variable)
-        
-#variaveis para ser plotadas
-conts = ['age','avg_glucose_level','bmi']
+#verifica se teve ou nao AVC
+str_only = df[df['stroke'] == 1]
+no_str_only = df[df['stroke'] == 0]
 
-plot_numeric_distribution(df, conts)
+#print(str_only.columns)
+create_plots(str_only, no_str_only)
