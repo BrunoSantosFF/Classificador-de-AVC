@@ -38,6 +38,18 @@ Missing = X[X.bmi.isna()]
 #Retorna os valores que não são NaN dentro do dataframe X
 X = X[~X.bmi.isna()]
 
-#Removendo a coluna "bmi"
+#Y está recebendo a coluna "bmi"
 Y = X.pop('bmi')
-print(Y)
+
+#Fazendo o treinamento (para aprender a relação entre age, gender e bmi.)
+DT_bmi_pipe.fit(X,Y)
+
+#Fazendo a predição dos valores de bmi(NaN) com base nas colunas gender e age usando o treinamento
+predicted_bmi = pd.Series(DT_bmi_pipe.predict(Missing[['age', 'gender']]), index=Missing.index)
+#print(predicted_bmi)
+
+#Os valores ausentes de bmi no DataFrame original (df) são preenchidos com os valores preditos pelo modelo.
+df.loc[Missing.index, 'bmi'] = predicted_bmi
+
+#Confirmando se o processo deu certo ou se ainda há algum valor nulo
+#print('Missing values: ',sum(df.isnull().sum()))
