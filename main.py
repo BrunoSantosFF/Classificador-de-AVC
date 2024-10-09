@@ -21,6 +21,15 @@ from imblearn.over_sampling import SMOTE
 #importando arquivo de funções auxiliares 
 from functions import checkingSmote
 
+#importando modelos
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+
+#importando para validação cruzada 
+from sklearn.model_selection import cross_val_score
+
 # Configurando a opção do pandas para evitar avisos de downcasting
 pd.set_option('future.no_silent_downcasting', True)
 
@@ -95,7 +104,19 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.3, random
 #SMOTE = balancear os dados do database
 #Já que existe poucos casos com AVC, usamos o smote para equilibrar os dados
 oversample = SMOTE()
-X_train_resh, y_train_resh = oversample.fit_resample(X_train, y_train.ravel())
+X_train_resh, y_train_resh = oversample.fit_resample(X_train, y_train.to_numpy())
 
 #função para imprimir dados originais e balanceados
-checkingSmote(y_train, y_train_resh)
+#checkingSmote(y_train, y_train_resh)
+
+#========== Modelos ===============#
+
+rf_pipeline = Pipeline(steps = [('scale',StandardScaler()),('RF',RandomForestClassifier(random_state=42))])
+svm_pipeline = Pipeline(steps = [('scale',StandardScaler()),('SVM',SVC(random_state=42))])
+logreg_pipeline = Pipeline(steps = [('scale',StandardScaler()),('LR',LogisticRegression(random_state=42))])
+
+#========= Validação cruzada ========# 
+#garantir que o modelo generaliza bem em dados não vistos e ajuda a evitar o overfitting (quando o modelo aprende muito bem os dados de treinamento, mas falha em prever novos dados).
+rf_cv = cross_val_score(rf_pipeline,X_train_resh,y_train_resh,cv=10,scoring='f1')
+svm_cv = cross_val_score(svm_pipeline,X_train_resh,y_train_resh,cv=10,scoring='f1')
+logreg_cv = cross_val_score(logreg_pipeline,X_train_resh,y_train_resh,cv=10,scoring='f1')
