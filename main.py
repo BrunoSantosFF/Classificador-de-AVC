@@ -9,10 +9,11 @@ from sklearn.tree import DecisionTreeRegressor
 
 #importando o arquivo de graficos
 from plot_graphics import create_plots
-
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+#importando para treino e teste
+from sklearn.model_selection import train_test_split
 
 # Configurando a opção do pandas para evitar avisos de downcasting
 pd.set_option('future.no_silent_downcasting', True)
@@ -65,5 +66,24 @@ df.loc[Missing.index, 'bmi'] = predicted_bmi
 str_only = df[df['stroke'] == 1]
 no_str_only = df[df['stroke'] == 0]
 
-#print(str_only.columns)
-create_plots(str_only, no_str_only)
+#plotar os grafícos, ainda há um erro
+#create_plots(str_only, no_str_only)
+
+#Passando valores numeros para valores categoricos
+df['gender'] = df['gender'].replace({'Male':0,'Female':1,'Other':-1}).astype(np.uint8)
+df['Residence_type'] = df['Residence_type'].replace({'Rural':0,'Urban':1}).astype(np.uint8)
+df['work_type'] = df['work_type'].replace({'Private':0,'Self-employed':1,'Govt_job':2,'children':-1,'Never_worked':-2}).astype(np.uint8)
+
+#Calculando o recall
+#print('Recall: ',100* (249/(249+4861)), end=" %\n")
+
+
+#=========================  Modelando  ======================# 
+X  = df[['gender','age','hypertension','heart_disease','work_type','avg_glucose_level','bmi']]
+y = df['stroke']
+
+#Dividindo os dados em treino e test (30% test e 70% train)
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.3, random_state=42)
+#Modelando 
+#SMOTE = balancear os dados do database
+#Já que existe poucos casos com AVC, usamos o smote para equilibrar os dados
