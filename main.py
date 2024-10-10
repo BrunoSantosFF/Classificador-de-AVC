@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
 #importando arquivo de funções auxiliares 
-from functions import checkingSmote,printCroosValidation,printF1_score
+from functions import checkingSmote,printCroosValidation,printF1_score,print_metrics,plot_confusion_matrix
 
 #importando modelos
 from sklearn.preprocessing import StandardScaler
@@ -30,8 +30,10 @@ from sklearn.linear_model import LogisticRegression
 #importando para validação cruzada 
 from sklearn.model_selection import cross_val_score
 
-#importando matriz de confusão  e f1
-from sklearn.metrics import confusion_matrix, f1_score, plot_confusion_matrix, classification_report
+#importando metricas
+from sklearn.metrics import confusion_matrix, f1_score, classification_report, ConfusionMatrixDisplay,accuracy_score
+
+import seaborn as sns
 
 # Configurando a opção do pandas para evitar avisos de downcasting
 pd.set_option('future.no_silent_downcasting', True)
@@ -137,15 +139,27 @@ rf_pred = rf_pipeline.predict(X_test)
 svm_pred  = svm_pipeline.predict(X_test)
 logreg_pred = logreg_pipeline.predict(X_test)
 
+# Imprimindo as métricas para cada modelo
+# print_metrics(y_test, rf_pred, "Random Forest")
+# print_metrics(y_test, svm_pred, "SVM")
+# print_metrics(y_test, logreg_pred, "Logistic Regression")
+
 #Matriz de confusão
-rf_cm  = confusion_matrix(y_test,rf_pred )
-svm_cm = confusion_matrix(y_test,svm_pred)
-logreg_cm  = confusion_matrix(y_test,logreg_pred )
+# rf_cm  = confusion_matrix(y_test,rf_pred )
+# svm_cm = confusion_matrix(y_test,svm_pred)
+# logreg_cm  = confusion_matrix(y_test,logreg_pred )
+
+# imprimindo matriz de confusão 
+#plot_confusion_matrix(rf_cm, "Random Forest")
+# plot_confusion_matrix(svm_cm, "SVM")
+# plot_confusion_matrix(logreg_cm, "Logistic Regression")
+
 
 #F1 média harmônica entre a Precisão e o Recall,
 rf_f1  = f1_score(y_test,rf_pred)
 svm_f1 = f1_score(y_test,svm_pred)
 logreg_f1  = f1_score(y_test,logreg_pred)
 
-#imprime os F1 score
-#printF1_score(rf_f1,svm_f1,logreg_f1)
+# #imprime os F1 score
+# #printF1_score(rf_f1,svm_f1,logreg_f1)
+
