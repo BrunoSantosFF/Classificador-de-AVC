@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
 #importando arquivo de funções auxiliares 
-from functions import checkingSmote,printCroosValidation
+from functions import checkingSmote,printCroosValidation,printF1_score
 
 #importando modelos
 from sklearn.preprocessing import StandardScaler
@@ -29,6 +29,9 @@ from sklearn.linear_model import LogisticRegression
 
 #importando para validação cruzada 
 from sklearn.model_selection import cross_val_score
+
+#importando matriz de confusão  e f1
+from sklearn.metrics import confusion_matrix, f1_score, plot_confusion_matrix, classification_report
 
 # Configurando a opção do pandas para evitar avisos de downcasting
 pd.set_option('future.no_silent_downcasting', True)
@@ -124,3 +127,25 @@ logreg_cv = cross_val_score(logreg_pipeline,X_train_resh,y_train_resh,cv=10,scor
 #imprimindo sainda da validação cruzada
 #printCroosValidation(rf_cv,svm_cv,logreg_cv)
 
+#Usando todos os dados 
+rf_pipeline.fit(X_train_resh,y_train_resh)
+svm_pipeline.fit(X_train_resh,y_train_resh)
+logreg_pipeline.fit(X_train_resh,y_train_resh)
+
+#Fazendo a predição
+rf_pred = rf_pipeline.predict(X_test)
+svm_pred  = svm_pipeline.predict(X_test)
+logreg_pred = logreg_pipeline.predict(X_test)
+
+#Matriz de confusão
+rf_cm  = confusion_matrix(y_test,rf_pred )
+svm_cm = confusion_matrix(y_test,svm_pred)
+logreg_cm  = confusion_matrix(y_test,logreg_pred )
+
+#F1 média harmônica entre a Precisão e o Recall,
+rf_f1  = f1_score(y_test,rf_pred)
+svm_f1 = f1_score(y_test,svm_pred)
+logreg_f1  = f1_score(y_test,logreg_pred)
+
+#imprime os F1 score
+#printF1_score(rf_f1,svm_f1,logreg_f1)
